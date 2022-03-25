@@ -1,0 +1,4 @@
+export const FETCH_SCREENS = 'FETCH_SCREENS'
+export const DELETE_SCREEN = 'DELETE_SCREEN'
+
+export const FETCH_USERS = 'FETCH_USERS'

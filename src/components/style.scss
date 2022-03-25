@@ -1,0 +1,276 @@
+* {
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.sidebar {
+  position: fixed;
+  width: 260px;
+  height: 100%;
+
+  background: #1b1b1b;
+  transition: left 0.4s ease;
+
+  .show {
+    left: 0px;
+  }
+
+  .text {
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 65px;
+    text-align: center;
+    background: #1e1e1e;
+    letter-spacing: 1px;
+  }
+}
+
+nav ul {
+  background: #1b1b1b;
+  height: 100%;
+  width: 100%;
+  list-style: none;
+  li {
+    line-height: 60px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    &:last-child {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    div{
+      position: relative;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      padding-left: 40px;
+      font-weight: 500;
+      display: block;
+      width: 100%;
+      border-left: 3px solid transparent;
+
+      span {
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        font-size: 22px;
+        transition: transform 0.4s;
+      }
+
+      span.rotate {
+        transform: translateY(-50%) rotate(-180deg);
+      }
+    }
+
+    .active ul li a {
+      color: #e6e6e6;
+      background: #1b1b1b;
+      border-left-color: transparent;
+    }
+
+    a {
+      position: relative;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      padding-left: 40px;
+      font-weight: 500;
+      display: block;
+      width: 100%;
+      border-left: 3px solid transparent;
+
+      
+    }
+
+    a:hover {
+      background: #1e1e1e;
+    }
+
+    .active a {
+      color: cyan;
+      background: #1e1e1e;
+      border-left-color: cyan;
+    }
+  }
+  .serv-show.show1 {
+    display: block;
+  }
+}
+
+nav ul ul {
+  position: static;
+  display: none;
+  li {
+    line-height: 42px;
+    border-top: none;
+    a {
+      font-size: 17px;
+      color: #e6e6e6;
+      padding-left: 80px;
+    }
+    a:hover {
+      color: cyan !important;
+      background: #1e1e1e !important;
+    }
+  }
+}
+
+//For createUser component
+
+
+.btn{
+  &-container{
+    display: flex;
+    justify-content: end;
+    margin-right: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  &-add{
+    padding: 0.5rem 0.7rem;
+    cursor: pointer;
+    color: black;
+    font-weight: bold;
+    font-size: 1rem;
+    background:transparent;
+    border: none;
+  }
+}
+
+.title{
+  margin-bottom: 4rem;
+}
+
+table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+
+  td,th{
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  tr:nth-child(even){background-color: #f2f2f2;}
+
+  tr:hover {background-color: #ddd;}
+
+  th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #115963;
+    color: white;
+  }
+}
+
+//Login form
+
+// @import url(https://fonts.googleapis.com/css?family=Roboto:300);
+header .header{
+  background-color: #fff;
+  height: 45px;
+}
+header a img{
+  width: 134px;
+  margin-top: 4px;
+}
+.login-page {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+
+  .form .login{
+    margin-top: -31px;
+  margin-bottom: 26px;
+  }
+}
+
+.form {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+
+  input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+
+  button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background-color: #328f8a;
+    background-image: linear-gradient(45deg,#328f8a,#08ac4b);
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+  }
+
+  .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+
+    a {
+      color: #4CAF50;
+      text-decoration: none;
+    }
+  }
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.error{
+  color: red;
+  font-size: 0.8rem;
+ 
+}
+
+
+//for logout btn
+
+.logout-btn {
+  
+  padding: 0.5rem 0.8rem;
+  font-size: 1rem;
+  background-color: #2e4e72;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+
+  &-container{
+    padding: 2.3rem;
+  }
+
+}
+
+
+
+
