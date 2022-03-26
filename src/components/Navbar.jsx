@@ -39,6 +39,10 @@ export default function Navbar() {
           </ul>
         </li>
 
+        <li>
+          <Link to="product">Product</Link>
+        </li>
+
         <div className="logout-btn-container">
           <button
             className="logout-btn"

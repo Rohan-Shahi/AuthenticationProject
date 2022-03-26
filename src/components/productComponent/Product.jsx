@@ -1,38 +1,49 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { fetchProducts, deleteProduct } from "../../redux/action/productAction";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteScreen, getScreen } from "../../redux/action/ScreenAction";
 import { useTable } from "react-table";
-import ScreenModal from "./ScreenModal";
-import EditModal from "./EditModal";
+import AddProductModal from "./AddProductModal";
+import EditProductModal from "./EditProductModal";
 
-export default function Screen() {
+export default function Product() {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editName, setEditName] = useState(null);
+  const [editDesc, setEditDesc] = useState(null);
+  const [editQuantity, setEditQuantity] = useState(null);
+  const [editId, setEditId] = useState(null);
+
   const dispatch = useDispatch();
-  const token = localStorage.getItem("token");
-  const parsedToken = JSON.parse(token);
-  const screenList = useSelector((state) => {
-    return state.screen.screenList;
+  const parsedToken = JSON.parse(localStorage.getItem("token"));
+
+  const productList = useSelector((state) => {
+    return state.products.productList;
+  });
+  const createProductSuccess = useSelector((state) => {
+    return state.createProduct.success;
+  });
+  const deleteProductSuccess = useSelector((state) => {
+    return state.deleteProduct.success;
+  });
+  const updateProductSuccess = useSelector((state) => {
+    return state.updateProduct.success;
   });
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [editId, setEditId] = useState(null);
-  const [editName, setEditName] = useState("");
-  const [editDesc, setEditDesc] = useState("");
+  useEffect(() => {
+    dispatch(fetchProducts(parsedToken));
+  }, [createProductSuccess, deleteProductSuccess, updateProductSuccess]);
 
-  
-  const deleteSuccess = useSelector((state) => state.deleteScreen.success)
-  const createScreenSuccess = useSelector((state) => state.createScreen.success)
-  const updateScreenSuccess = useSelector((state => state.updateScreen.success))
-//custom functions
+  //custom functions
+
   const screenDelete = (id) => {
-    dispatch(deleteScreen(id, parsedToken));
-   
+    dispatch(deleteProduct(id, parsedToken));
   };
 
-  const sendEditData = (id, name, description) => {
+  const sendEditData = (id, name, description, quantity) => {
     setIsEditing(true);
-    setEditDesc(description);
-    setEditId(id);
     setEditName(name);
+    setEditDesc(description);
+    setEditQuantity(quantity);
+    setEditId(id);
   };
 
   const columns = useMemo(
@@ -42,7 +53,7 @@ export default function Screen() {
         accessor: "id",
       },
       {
-        Header: "Screen Name",
+        Header: "Product Name",
         accessor: "name",
       },
       {
@@ -50,12 +61,16 @@ export default function Screen() {
         accessor: "description",
       },
       {
+        Header: "Quantity",
+        accessor: "quantity",
+      },
+      {
         Header: "Action",
         Cell: ({ row }) => (
           <>
             <button
               data-toggle="modal"
-              data-target="#editModal"
+              data-target="#editProductModal"
               style={{
                 color: "blue",
                 border: "none",
@@ -66,7 +81,8 @@ export default function Screen() {
                 sendEditData(
                   row.original.id,
                   row.original.name,
-                  row.original.description
+                  row.original.description,
+                  row.original.quantity
                 );
               }}
             >
@@ -82,7 +98,6 @@ export default function Screen() {
               onClick={() => {
                 screenDelete(row.original.id);
               }}
-              // dispatch(deleteScreen(row.original.id, parsedToken))
             >
               <i className="bi bi-trash3"></i>
             </button>
@@ -93,35 +108,36 @@ export default function Screen() {
     []
   );
 
-  useEffect(() => {
-    dispatch(getScreen(parsedToken));
-  }, [deleteSuccess,createScreenSuccess,updateScreenSuccess]);
-
-  const tableInstance = useTable({ columns, data: screenList });
+  const tableInstance = useTable({ columns, data: productList });
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
 
   return (
     <>
-      <h1 className="title">Screen Details</h1>
+      <h1 className="title">Product</h1>
 
-      <ScreenModal />
+      <AddProductModal />
 
       {isEditing ? (
-        <EditModal editId={editId} editDesc={editDesc} editName={editName} setIsEditing={setIsEditing}/>
+        <EditProductModal
+          editName={editName}
+          editDesc={editDesc}
+          editQuantity={editQuantity}
+          editId={editId}
+          setIsEditing={setIsEditing}
+        />
       ) : null}
 
       <div className="btn-container">
         <button
-          data-toggle="modal"
-          data-target="#exampleModal"
           className="btn-add"
           type="button"
+          data-toggle="modal"
+          data-target="#productModal"
         >
-          + Add Screen
+          + Add Product
         </button>
       </div>
-
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (

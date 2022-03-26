@@ -32,3 +32,16 @@ export const DELETE_ROLE = "DELETE_ROLE";
 
 export const UPDATE_ROLE_INIT = "UPDATE_ROLE_INIT";
 export const UPDATE_ROLE = "UPDATE_ROLE";
+
+//product constants
+
+export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
+
+export const CREATE_PROUDCT_INIT = "CREATE_PROUDCT_INIT";
+export const CREATE_PROUDCT = "CREATE_PROUDCT";
+
+export const DELETE_PRODUCT_INIT = "DELETE_PRODUCT_INIT";
+export const DELETE_PRODUCT = "DELETE_PRODUCT";
+
+export const UPDATE_PRODUCT_INIT = "UPDATE_PRODUCT_INIT";
+export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
