@@ -16,3 +16,12 @@ export const CREATE_USER = 'CREATE_USER'
 
 export const DELETE_USER_INIT = 'DELETE_USER_INIT'
 export const DELETE_USER = 'DELETE_USER'
+
+export const UPDATE_USER_INIT = 'UPDATE_USER_INIT'
+export const UPDATE_USER = 'UPDATE_USER'
+
+
+export const FETCH_ROLES  ='FETCH_ROLES'
+
+export const CREATE_ROLE_INIT = 'CREATE_ROLE_INIT'
+export const CREATE_ROLE = 'CREATE_ROLE'

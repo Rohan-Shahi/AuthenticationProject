@@ -18,14 +18,14 @@ export default function Screen() {
   const [editName, setEditName] = useState("");
   const [editDesc, setEditDesc] = useState("");
 
-  //custom functions
+  
   const deleteSuccess = useSelector((state) => state.deleteScreen.success)
   const createScreenSuccess = useSelector((state) => state.createScreen.success)
   const updateScreenSuccess = useSelector((state => state.updateScreen.success))
-
+//custom functions
   const screenDelete = (id) => {
     dispatch(deleteScreen(id, parsedToken));
-    dispatch(getScreen(parsedToken));
+   
   };
 
   const sendEditData = (id, name, description) => {

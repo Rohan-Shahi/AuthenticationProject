@@ -1,22 +1,45 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTable } from "react-table";
-import { fetchUsers } from "../../redux/action/UserAction";
-import "../style.scss";
+import { deleteUser, fetchUsers } from "../../redux/action/UserAction";
+// import "../style.scss";
+import EditUserModal from "./EditUserModal";
 import UserModal from "./UserModal";
 // import UserModal from "./UserModal";
 
 function CreateUser() {
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editId, setEditId] = useState(null);
+  const [editName, setEditName] = useState("");
+  const [editEmail, setEditEmail] = useState("");
   const dispatch = useDispatch();
+
   const usersList = useSelector((state) => {
     return state.users.usersList;
   });
+  const createUserSuccess = useSelector((state) => {return state.createUser.success});
+  const deleteUserSuccess = useSelector((state) => {return state.deleteUser.success});
+  const updateUserSuccess = useSelector((state) => {return state.updateUser.success});
 
   const parsedToken = JSON.parse(localStorage.getItem("token"));
 
   useEffect(() => {
     dispatch(fetchUsers(parsedToken));
-  }, []);
+  }, [createUserSuccess,deleteUserSuccess,updateUserSuccess]);
+
+  //custom functions
+
+  const userDelete = (id) => {
+    dispatch(deleteUser(id,parsedToken))
+  }
+
+  const sendUserData = (id, name, email) => {
+    setIsEditing(true);
+    setEditId(id);
+    setEditName(name);
+    setEditEmail(email);
+  };
 
   const columns = useMemo(
     () => [
@@ -37,13 +60,15 @@ function CreateUser() {
         Cell: ({ row }) => (
           <>
             <button
+             data-toggle="modal"
+             data-target="#editUserModal"
               style={{
                 color: "blue",
                 border: "none",
                 fontSize: "1.2rem",
                 margin: "0.5rem",
               }}
-              onClick={() => alert("hello")}
+              onClick={() => sendUserData(row.original.id,row.original.name,row.original.email)}
             >
               <i className="bi bi-pen"></i>
             </button>
@@ -54,7 +79,7 @@ function CreateUser() {
                 fontSize: "1.2rem",
                 margin: "0.5rem",
               }}
-              onClick={() => alert(row.original.id)}
+              onClick={() => userDelete(row.original.id)}
             >
               <i className="bi bi-trash3"></i>
             </button>
@@ -76,6 +101,11 @@ function CreateUser() {
     <>
       <h1 className="title">User Setup</h1>
       <UserModal />
+
+      {isEditing ? (
+        <EditUserModal isEditing={isEditing} editId={editId} editEmail={editEmail} editName={editName} setIsEditing={setIsEditing}/>
+      ) : null}
+
       <div className="btn-container">
         <button
           className="btn-add"
