@@ -2,7 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteScreen, getScreen } from "../../redux/action/ScreenAction";
 import { useTable } from "react-table";
-// import ScreenModal from "./ScreenModal";
+import ScreenModal from "./ScreenModal";
+import EditModal from "./EditModal";
 
 export default function Screen() {
   const dispatch = useDispatch();
@@ -12,15 +13,23 @@ export default function Screen() {
     return state.screen.screenList;
   });
 
-  //State for modal
-  // const [openModal,setOpenModal] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editId, setEditId] = useState(null);
+  const [editName, setEditName] = useState("");
+  const [editDesc, setEditDesc] = useState("");
 
   //custom functions
-
   const screenDelete = (id) => {
-    dispatch(deleteScreen(id, parsedToken))
-    dispatch(getScreen(parsedToken))
-  }
+    dispatch(deleteScreen(id, parsedToken));
+    dispatch(getScreen(parsedToken));
+  };
+
+  const sendEditData = (id, name, description) => {
+    setIsEditing(true);
+    setEditDesc(description);
+    setEditId(id);
+    setEditName(name);
+  };
 
   const columns = useMemo(
     () => [
@@ -41,13 +50,21 @@ export default function Screen() {
         Cell: ({ row }) => (
           <>
             <button
+              data-toggle="modal"
+              data-target="#editModal"
               style={{
                 color: "blue",
                 border: "none",
                 fontSize: "1.2rem",
                 margin: "0.5rem",
               }}
-              onClick={() => alert("hello")}
+              onClick={() => {
+                sendEditData(
+                  row.original.id,
+                  row.original.name,
+                  row.original.description
+                );
+              }}
             >
               <i className="bi bi-pen"></i>
             </button>
@@ -58,10 +75,10 @@ export default function Screen() {
                 fontSize: "1.2rem",
                 margin: "0.5rem",
               }}
-              onClick= { () => {screenDelete(row.original.id)} }
-                // dispatch(deleteScreen(row.original.id, parsedToken))
-             
-             
+              onClick={() => {
+                screenDelete(row.original.id);
+              }}
+              // dispatch(deleteScreen(row.original.id, parsedToken))
             >
               <i className="bi bi-trash3"></i>
             </button>
@@ -84,11 +101,19 @@ export default function Screen() {
     <>
       <h1>Screen Details</h1>
 
-      {/* {openModal ?<ScreenModal setOpenModal = {setOpenModal}/> : null } */}
-      
+      <ScreenModal />
+
+      {isEditing ? (
+        <EditModal editId={editId} editDesc={editDesc} editName={editName} setIsEditing={setIsEditing}/>
+      ) : null}
 
       <div className="btn-container">
-        <button className="btn-add" type="button" onClick={() => { setOpenModal(true) }}>
+        <button
+          data-toggle="modal"
+          data-target="#exampleModal"
+          className="btn-add"
+          type="button"
+        >
           + Add Screen
         </button>
       </div>

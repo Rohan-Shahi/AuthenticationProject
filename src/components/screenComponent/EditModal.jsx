@@ -1,14 +1,9 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import '../screen.scss'
+import "../screen.scss";
 import { useDispatch } from "react-redux";
-import { createScreen } from "../../redux/action/ScreenAction";
-
-const initialValues = {
-  name: "",
-  description: "",
-};
+import { updateScreen } from "../../redux/action/ScreenAction";
 
 const validationSchema = Yup.object({
   name: Yup.string().required("name cannot be empty"),
@@ -17,15 +12,20 @@ const validationSchema = Yup.object({
     .min(6, "Description cannot be less than 6 characters"),
 });
 
-export default function ScreenModal() {
-    const dispatch = useDispatch();
-    const parsedToken = JSON.parse(localStorage.getItem('token'));
+export default function EditModal({editId, editName,editDesc,setIsEditing}) {
+   
+  const dispatch = useDispatch();
+  const parsedToken = JSON.parse(localStorage.getItem("token"));
 
+  const initialValues = {
+    name: editName,
+    description: editDesc,
+  };
 
-  const onSubmit = (values, {resetForm}) => {
-    dispatch(createScreen(values,parsedToken))
-
+  const onSubmit = (values, { resetForm }) => {
+    dispatch(updateScreen(editId,values,parsedToken))
     resetForm();
+    setIsEditing(false)
   };
 
   const { values, handleSubmit, handleChange } = useFormik({
@@ -33,11 +33,10 @@ export default function ScreenModal() {
     onSubmit,
     validationSchema,
   });
-
   return (
     <div
       className="modal fade"
-      id="exampleModal"
+      id="editModal"
       tabIndex="-1"
       role="dialog"
       aria-labelledby="exampleModalLabel"
@@ -47,13 +46,14 @@ export default function ScreenModal() {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="exampleModalLabel">
-              Add Screen
+              Edit Screen
             </h5>
             <button
               type="button"
               className="close"
               data-dismiss="modal"
               aria-label="Close"
+              onClick={()=>{ setIsEditing(false)}}
             >
               <span aria-hidden="true">&times;</span>
             </button>
@@ -66,8 +66,8 @@ export default function ScreenModal() {
                 name="name"
                 value={values.name}
                 onChange={handleChange}
-              /> <br />
-
+              />{" "}
+              <br />
               <label htmlFor="description">Description</label>
               <input
                 type="text"
@@ -75,34 +75,23 @@ export default function ScreenModal() {
                 value={values.description}
                 onChange={handleChange}
               />
-              
-              <div className='btn-groups'>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Cancel
-              </button>
+              <div className="btn-groups">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-dismiss="modal"
+                  onClick={()=>{ setIsEditing(false)}}
+                >
+                  Cancel
+                </button>
 
-              <button  type="submit" className="btn btn-success">
-              Add
-            </button>
-            </div>
+                <button type="submit" className="btn btn-success">
+                  Update Screen
+                </button>
+              </div>
             </form>
           </div>
-          {/* <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Cancel
-            </button>
-            <button type="submit" className="btn btn-primary">
-              Add
-            </button>
-          </div> */}
+         
         </div>
       </div>
     </div>

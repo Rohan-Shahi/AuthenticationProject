@@ -34,14 +34,44 @@ export const deleteScreen = (id,token) => async (dispatch) => {
                 Authorization : `Bearer ${token}`
             }
         })
-        console.log(response)
-        // if(response){
-        //     dispatch({
-        //         type: FETCH_SCREENS,
-        //         payload : response?.data?.data
-        //     })
-        // }
     }catch(err) {
         alert(err);
+    }
+}
+
+export const createScreen = (userInfo,token) => async (dispatch) =>{
+    try{
+        const response = await axios({
+            method: 'POST',
+            url : `https://ecom-react-task.herokuapp.com/screens`,
+            headers : {
+                "Content-type" : "application/json",
+                Authorization : `Bearer ${token}`
+            },
+            data : userInfo
+        })
+        console.log(response)
+    
+    }catch(err) {
+        alert(err);
+    }
+}
+
+export const updateScreen = (id,userInfo,token) => async(dispatch) => {
+    try{
+        const response = await axios({
+            method: 'PUT',
+            url : `https://ecom-react-task.herokuapp.com/screens/${id}`,
+            headers : {
+                'Content-type' : 'application/json',
+                Authorization : `Bearer ${token}`
+            },
+            data : userInfo
+    
+        })
+        console.log(response);
+
+    }catch(err){
+        alert(err)
     }
 }

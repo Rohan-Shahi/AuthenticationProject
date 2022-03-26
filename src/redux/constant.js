@@ -1,4 +1,6 @@
 export const FETCH_SCREENS = 'FETCH_SCREENS'
 export const DELETE_SCREEN = 'DELETE_SCREEN'
+export const CREATE_SCREEN = 'CREATE_SCREEN'
+export const UPDATE_SCREEN = 'UPDATE_SCREEN'
 
 export const FETCH_USERS = 'FETCH_USERS'
