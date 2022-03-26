@@ -11,9 +11,12 @@ import {
   updateUserReducer,
   UserReducer,
 } from "./UserReducer";
-import { roleReducer } from "./RoleReducer";
-
-
+import {
+  createRoleReducer,
+  deleteRoleReducer,
+  roleReducer,
+  updateRoleReducer,
+} from "./RoleReducer";
 
 export const rootReducer = combineReducers({
   screen: ScreenReducer,
@@ -26,5 +29,8 @@ export const rootReducer = combineReducers({
   deleteUser: deleteUserReducer,
   updateUser: updateUserReducer,
 
-  roles : roleReducer,
+  roles: roleReducer,
+  createRole: createRoleReducer,
+  deleteRole: deleteRoleReducer,
+  updateRole: updateRoleReducer,
 });

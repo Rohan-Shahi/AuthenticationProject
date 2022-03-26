@@ -1,20 +1,43 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTable } from "react-table";
 
-import { fetchRoles } from "../../redux/action/RoleAction";
+import { deleteRole, fetchRoles } from "../../redux/action/RoleAction";
+import AddRoleModal from "./AddRoleModal";
+import EditRoleModal from "./EditRoleModal";
 
 export default function RoleSetting() {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editId, setEditId] = useState(null);
+  const [editName, setEditName] = useState(null);
+  const [editDesc, setEditDesc] = useState(null);
+
   const dispatch = useDispatch();
 
   const parsedToken = JSON.parse(localStorage.getItem("token"));
 
   const rolesList = useSelector((state) => state.roles.rolesList);
-  console.log(rolesList);
+  const createRoleSuccess = useSelector((state) => state.createRole.success);
+  const deleteRoleSuccess = useSelector((state) => state.deleteRole.success);
+  const updateRoleSuccess = useSelector((state) => state.updateRole.success);
+
 
   useEffect(() => {
     dispatch(fetchRoles(parsedToken));
-  }, []);
+  }, [createRoleSuccess, deleteRoleSuccess,updateRoleSuccess]);
+
+  //custom functions
+
+  const roleDelete = (id) => {
+    dispatch(deleteRole(id, parsedToken));
+  };
+
+  const sendEditData = (id, name, desc) => {
+    setIsEditing(true);
+    setEditId(id);
+    setEditName(name);
+    setEditDesc(desc);
+  };
 
   const columns = useMemo(
     () => [
@@ -36,12 +59,19 @@ export default function RoleSetting() {
           <>
             <button
               data-toggle="modal"
-              data-target="#editUserModal"
+              data-target="#editRoleModal"
               style={{
                 color: "blue",
                 border: "none",
                 fontSize: "1.2rem",
                 margin: "0.5rem",
+              }}
+              onClick={() => {
+                sendEditData(
+                  row.original.id,
+                  row.original.name,
+                  row.original.description
+                );
               }}
             >
               <i className="bi bi-pen"></i>
@@ -52,6 +82,9 @@ export default function RoleSetting() {
                 border: "none",
                 fontSize: "1.2rem",
                 margin: "0.5rem",
+              }}
+              onClick={() => {
+                roleDelete(row.original.id);
               }}
             >
               <i className="bi bi-trash3"></i>
@@ -81,12 +114,23 @@ export default function RoleSetting() {
     <>
       <h1 className="title">Roles Setup</h1>
 
+      <AddRoleModal />
+
+      {isEditing ? (
+        <EditRoleModal
+          editId={editId}
+          editDesc={editDesc}
+          editName={editName}
+          setIsEditing={setIsEditing}
+        />
+      ) : null}
+
       <div className="btn-container">
         <button
           className="btn-add"
           type="button"
-          // data-toggle="modal"
-          // data-target="#userModal"
+          data-toggle="modal"
+          data-target="#roleModal"
         >
           + Add Roles
         </button>
