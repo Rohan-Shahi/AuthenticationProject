@@ -28,7 +28,7 @@ export default function ScreenModal() {
     resetForm();
   };
 
-  const { values, handleSubmit, handleChange } = useFormik({
+  const { values,touched,errors,handleBlur, handleSubmit, handleChange } = useFormik({
     initialValues,
     onSubmit,
     validationSchema,
@@ -66,7 +66,11 @@ export default function ScreenModal() {
                 name="name"
                 value={values.name}
                 onChange={handleChange}
+                onBlur={handleBlur}
               /> <br />
+              {touched.name && errors.name ? (
+                <span style={{ color: "red" }}>{errors.name}</span>
+              ) : null}
 
               <label htmlFor="description">Description</label>
               <input
@@ -74,7 +78,11 @@ export default function ScreenModal() {
                 name="description"
                 value={values.description}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
+              {touched.description && errors.description ? (
+                <span style={{ color: "red" }}>{errors.description}</span>
+              ) : null}
               
               <div className='btn-groups'>
               <button

@@ -24,3 +24,35 @@ export const fetchUsers = (token) => async (dispatch) => {
     }
 
 }
+
+export const createUser = (userInfo,token) => async (dispatch) => {
+    try{
+        const response = await axios({
+            method: 'POST',
+            url : 'https://ecom-react-task.herokuapp.com/user',
+            headers: {
+                "Content-type" : "application/json",
+                Authorization : `Bearer ${token}`
+            },
+            data: userInfo
+        })
+    }catch(err){
+        alert(err)
+    }
+
+}
+
+// export const deleteScreen = (id,token) => async (dispatch) => {
+//     try{
+//         const response = await axios({
+//             method: 'DELETE',
+//             url : `https://ecom-react-task.herokuapp.com/screens/${id}`,
+//             headers : {
+//                 "Content-type" : "application/json",
+//                 Authorization : `Bearer ${token}`
+//             }
+//         })
+//     }catch(err) {
+//         alert(err);
+//     }
+// }

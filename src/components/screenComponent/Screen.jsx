@@ -19,6 +19,10 @@ export default function Screen() {
   const [editDesc, setEditDesc] = useState("");
 
   //custom functions
+  const deleteSuccess = useSelector((state) => state.deleteScreen.success)
+  const createScreenSuccess = useSelector((state) => state.createScreen.success)
+  const updateScreenSuccess = useSelector((state => state.updateScreen.success))
+
   const screenDelete = (id) => {
     dispatch(deleteScreen(id, parsedToken));
     dispatch(getScreen(parsedToken));
@@ -91,7 +95,7 @@ export default function Screen() {
 
   useEffect(() => {
     dispatch(getScreen(parsedToken));
-  }, []);
+  }, [deleteSuccess,createScreenSuccess,updateScreenSuccess]);
 
   const tableInstance = useTable({ columns, data: screenList });
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
