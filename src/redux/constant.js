@@ -49,4 +49,9 @@ export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 //screen role map
 
 export const SCREEN_MAP_INIT = 'SCREEN_MAP_INIT'
-export const SCREEN_MAP_SUCCESS = 'SCREEN_MAP_INIT'
+export const SCREEN_MAP_SUCCESS = 'SCREEN_MAP_SUCCESS'
+
+//user role map
+
+export const USER_MAP_INIT = 'USER_MAP_INIT'
+export const USER_MAP_SUCCESS = 'USER_MAP_SUCCESS'

@@ -18,7 +18,7 @@ import {
   updateRoleReducer,
 } from "./RoleReducer";
 import { createProductReducer, deleteProductReducer, productReducer, updateProductReducer } from "./ProductReducer";
-import { screenMapReducer } from "./screenMapReducer";
+import { screenMapReducer, userMapReducer } from "./screenMapReducer";
 
 export const rootReducer = combineReducers({
   screen: ScreenReducer,
@@ -41,5 +41,6 @@ export const rootReducer = combineReducers({
   deleteProduct : deleteProductReducer,
   updateProduct : updateProductReducer,
 
-  screenMap : screenMapReducer
+  screenMap : screenMapReducer,
+  userMap: userMapReducer
 });
