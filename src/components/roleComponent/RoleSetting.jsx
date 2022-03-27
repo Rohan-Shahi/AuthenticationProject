@@ -4,6 +4,7 @@ import { useTable } from "react-table";
 
 import { deleteRole, fetchRoles } from "../../redux/action/RoleAction";
 import AddRoleModal from "./AddRoleModal";
+import ConfigureRole from "./ConfigureRole";
 import EditRoleModal from "./EditRoleModal";
 
 export default function RoleSetting() {
@@ -11,6 +12,10 @@ export default function RoleSetting() {
   const [editId, setEditId] = useState(null);
   const [editName, setEditName] = useState(null);
   const [editDesc, setEditDesc] = useState(null);
+
+  const [roleId,setRoleId] = useState(null);
+
+  const [configRole, setConfigRole] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -21,10 +26,9 @@ export default function RoleSetting() {
   const deleteRoleSuccess = useSelector((state) => state.deleteRole.success);
   const updateRoleSuccess = useSelector((state) => state.updateRole.success);
 
-
   useEffect(() => {
     dispatch(fetchRoles(parsedToken));
-  }, [createRoleSuccess, deleteRoleSuccess,updateRoleSuccess]);
+  }, [createRoleSuccess, deleteRoleSuccess, updateRoleSuccess]);
 
   //custom functions
 
@@ -38,6 +42,11 @@ export default function RoleSetting() {
     setEditName(name);
     setEditDesc(desc);
   };
+
+  const handleConfigure = (id) => {
+    setRoleId(id)
+    setConfigRole(true)
+  }
 
   const columns = useMemo(
     () => [
@@ -96,7 +105,7 @@ export default function RoleSetting() {
                 fontSize: "1.2rem",
                 margin: "0.5rem",
               }}
-              onClick={() => alert("hello")}
+              onClick={() =>{ handleConfigure(row.original.id) }}
             >
               <i className="bi bi-gear"></i>
             </button>
@@ -112,54 +121,62 @@ export default function RoleSetting() {
     tableInstance;
   return (
     <>
-      <h1 className="title">Roles Setup</h1>
+      {configRole ? (
+        <ConfigureRole roleId={roleId}/>
+      ) : (
+        <>
+          <h1 className="title">Roles Setup</h1>
 
-      <AddRoleModal />
+          <AddRoleModal />
 
-      {isEditing ? (
-        <EditRoleModal
-          editId={editId}
-          editDesc={editDesc}
-          editName={editName}
-          setIsEditing={setIsEditing}
-        />
-      ) : null}
+          {isEditing ? (
+            <EditRoleModal
+              editId={editId}
+              editDesc={editDesc}
+              editName={editName}
+              setIsEditing={setIsEditing}
+            />
+          ) : null}
 
-      <div className="btn-container">
-        <button
-          className="btn-add"
-          type="button"
-          data-toggle="modal"
-          data-target="#roleModal"
-        >
-          + Add Roles
-        </button>
-      </div>
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+          <div className="btn-container">
+            <button
+              className="btn-add"
+              type="button"
+              data-toggle="modal"
+              data-target="#roleModal"
+            >
+              + Add Roles
+            </button>
+          </div>
+          <table {...getTableProps()}>
+            <thead>
+              {headerGroups.map((headerGroup) => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map((column) => (
+                    <th {...column.getHeaderProps()}>
+                      {column.render("Header")}
+                    </th>
+                  ))}
+                </tr>
               ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            </thead>
+            <tbody {...getTableBodyProps()}>
+              {rows.map((row) => {
+                prepareRow(row);
+                return (
+                  <tr {...row.getRowProps()}>
+                    {row.cells.map((cell) => {
+                      return (
+                        <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </>
+      )}
     </>
   );
 }

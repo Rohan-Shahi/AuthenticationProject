@@ -102,3 +102,4 @@ export const updateProduct = (id, productInfo, token) => async (dispatch) => {
     alert(err);
   }
 };
+

@@ -45,3 +45,8 @@ export const DELETE_PRODUCT = "DELETE_PRODUCT";
 
 export const UPDATE_PRODUCT_INIT = "UPDATE_PRODUCT_INIT";
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+
+//screen role map
+
+export const SCREEN_MAP_INIT = 'SCREEN_MAP_INIT'
+export const SCREEN_MAP_SUCCESS = 'SCREEN_MAP_INIT'
